@@ -21,17 +21,31 @@ class AdminJalaliDateWidget(AdminDateWidget):
         return forms.Media(js=[static(path) for path in js], css=css)
 
     def __init__(self, attrs=None, format=None):
-        final_attrs = {'class': 'jalali_date-date', 'data-jdp': {}, 'data-jdp-only-date': {}}
+        final_attrs = {
+            'class': 'jalali_date-date border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full min-w-52',
+            'data-jdp': {},
+            'data-jdp-only-date': {}
+        }
         if attrs is not None:
             final_attrs.update(attrs)
         super(AdminJalaliDateWidget, self).__init__(attrs=final_attrs, format=format)
+
+
+class AdminTimeWidgetStyled(AdminTimeWidget):
+    def __init__(self, attrs=None, format=None):
+        final_attrs = {
+            'class': 'border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full min-w-52'
+        }
+        if attrs is not None:
+            final_attrs.update(attrs)
+        super(AdminTimeWidgetStyled, self).__init__(attrs=final_attrs, format=format)
 
 
 class AdminSplitJalaliDateTime(AdminSplitDateTime):
     template_name = 'admin/widgets/jalali_split_datetime.html'  # for django >= 1.11
 
     def __init__(self, attrs=None):
-        widgets = [AdminJalaliDateWidget, AdminTimeWidget]
+        widgets = [AdminJalaliDateWidget, AdminTimeWidgetStyled]
         # Note that we're calling MultiWidget, not SplitDateTimeWidget, because
         # we want to define widgets.
         forms.MultiWidget.__init__(self, widgets, attrs)
